@@ -17,57 +17,64 @@ namespace Simple_Logger
 			error
 		};
 
-		static void init();
+		void init()
+		{
+			setLevel(Logger::LogLevel::debug);
+			m_hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+		}
 
-		static void setLevel(const LogLevel level);
+		void setLevel(const LogLevel level)
+		{
+			m_level = level;
+		}
 
 		template<typename ... Args>
-		static void debug(const char* const format, const Args& ... args)
+		void debug(const char* const format, const Args& ... args)
 		{
 			log(LogLevel::debug, format, args ...);
 		}
 
 		template<typename ... Args>
-		static void debug(const wchar_t* const format, const Args& ... args)
+		void debug(const wchar_t* const format, const Args& ... args)
 		{
 			log(LogLevel::debug, format, args ...);
 		}
 
 		template<typename ... Args>
-		static void warning(const char* const format, const Args& ... args)
+		void warning(const char* const format, const Args& ... args)
 		{
 			log(LogLevel::warning, format, args ...);
 		}
 
 		template<typename ... Args>
-		static void warning(const wchar_t* const format, const Args& ... args)
+		void warning(const wchar_t* const format, const Args& ... args)
 		{
 			log(LogLevel::warning, format, args ...);
 		}
 
 		template<typename ... Args>
-		static void error(const char* const format, const Args& ... args)
+		void error(const char* const format, const Args& ... args)
 		{
 			log(LogLevel::error, format, args ...);
 		}
 
 		template<typename ... Args>
-		static void error(const wchar_t* const format, const Args& ... args)
+		void error(const wchar_t* const format, const Args& ... args)
 		{
 			log(LogLevel::error, format, args ...);
 		}
 	private:
-		static LogLevel m_level;
-		static HANDLE m_hConsole;
+		LogLevel m_level;
+		HANDLE m_hConsole;
 
 		template<typename T>
-		static void logPrefix(std::basic_string<T>& buffer, const LogLevel level)
+		void logPrefix(std::basic_string<T>& buffer, const LogLevel level)
 		{
 			// TODO other stuff here in the future (timing/file and location)
 			fOutput::format(buffer, "[%s] ", getLevelName(level));
 		}
 
-		static const std::string getLevelName(const LogLevel level)
+		const std::string getLevelName(const LogLevel level)
 		{
 			switch (level)
 			{
@@ -78,7 +85,7 @@ namespace Simple_Logger
 			}
 		}
 
-		static void setConsoleColor(const LogLevel level)
+		void setConsoleColor(const LogLevel level)
 		{
 			switch (level)
 			{
@@ -96,13 +103,13 @@ namespace Simple_Logger
 			}
 		}
 
-		static void clearConsoleColor()
+		void clearConsoleColor()
 		{
 			SetConsoleTextAttribute(m_hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 		}
 		
 		template<typename T, typename ... Args>
-		static void log(const LogLevel level, const T* format, const Args& ... args)
+		void log(const LogLevel level, const T* format, const Args& ... args)
 		{
 			if (m_level > level)
 				return;
