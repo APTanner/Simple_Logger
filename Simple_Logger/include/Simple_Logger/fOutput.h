@@ -5,13 +5,13 @@
 
 namespace Simple_Logger
 {
-	namespace fOutput 
+	namespace fOutput
 	{
 		template <typename T>
 		inline T adjust(T value) noexcept;
 
 		template <typename T>
-		inline const T* adjust(const std::basic_string<T>&value) noexcept;
+		inline const T* adjust(const std::basic_string<T>& value) noexcept;
 
 		template <typename ... Args>
 		inline int getString(char* const buffer, const size_t bufferCount, const char* const format, const Args& ... args) noexcept;
@@ -28,6 +28,12 @@ namespace Simple_Logger
 			std::printf(format, adjust(args) ...);
 		}
 
+		template <typename T, typename ... Args>
+		inline void print(const std::basic_string<T>& format, const Args& ... args) noexcept
+		{
+			print(adjust(format), args ...);
+		}
+
 		inline void print(const char* const value) noexcept
 		{
 			print("%s", value);
@@ -39,7 +45,7 @@ namespace Simple_Logger
 		}
 
 		template <typename T>
-		inline void print(const std::basic_string<T>&value) noexcept
+		inline void print(const std::basic_string<T>& value) noexcept
 		{
 			print(value.c_str());
 		}
@@ -51,7 +57,7 @@ namespace Simple_Logger
 		}
 
 		template <typename T>
-		inline const T* adjust(const std::basic_string<T>&value) noexcept
+		inline const T* adjust(const std::basic_string<T>& value) noexcept
 		{
 			return value.c_str();
 		}
@@ -61,7 +67,7 @@ namespace Simple_Logger
 		// =====================================
 
 		template <typename T, typename ... Args>
-		inline void format(std::basic_string<T>&buffer, const T* const format, const Args& ... args)
+		inline void format(std::basic_string<T>& buffer, const T* const format, const Args& ... args)
 		{
 			const size_t size = getString(&buffer[0], buffer.size() + 1, format, args ...);
 			// if the string didn't fit in the buffer

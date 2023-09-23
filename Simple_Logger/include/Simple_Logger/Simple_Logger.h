@@ -107,7 +107,7 @@ namespace Simple_Logger
 		{
 			SetConsoleTextAttribute(m_hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 		}
-		
+
 		template<typename T, typename ... Args>
 		void log(const LogLevel level, const T* format, const Args& ... args)
 		{
@@ -117,6 +117,7 @@ namespace Simple_Logger
 			// append the stuff around the message
 			logPrefix(buffer, level);
 			buffer += format;
+			buffer += '\n';
 			setConsoleColor(level);
 			fOutput::print(buffer, args ...);
 			clearConsoleColor();
