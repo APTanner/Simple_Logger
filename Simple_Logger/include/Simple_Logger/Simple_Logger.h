@@ -29,37 +29,37 @@ namespace Simple_Logger
 		}
 
 		template<typename ... Args>
-		void debug(const char* const format, const Args& ... args)
+		void debug(const char* const format, const Args& ... args) const
 		{
 			log(LogLevel::debug, format, args ...);
 		}
 
 		template<typename ... Args>
-		void debug(const wchar_t* const format, const Args& ... args)
+		void debug(const wchar_t* const format, const Args& ... args) const 
 		{
 			log(LogLevel::debug, format, args ...);
 		}
 
 		template<typename ... Args>
-		void warning(const char* const format, const Args& ... args)
+		void warning(const char* const format, const Args& ... args) const 
 		{
 			log(LogLevel::warning, format, args ...);
 		}
 
 		template<typename ... Args>
-		void warning(const wchar_t* const format, const Args& ... args)
+		void warning(const wchar_t* const format, const Args& ... args) const
 		{
 			log(LogLevel::warning, format, args ...);
 		}
 
 		template<typename ... Args>
-		void error(const char* const format, const Args& ... args)
+		void error(const char* const format, const Args& ... args) const 
 		{
 			log(LogLevel::error, format, args ...);
 		}
 
 		template<typename ... Args>
-		void error(const wchar_t* const format, const Args& ... args)
+		void error(const wchar_t* const format, const Args& ... args) const 
 		{
 			log(LogLevel::error, format, args ...);
 		}
@@ -68,13 +68,13 @@ namespace Simple_Logger
 		HANDLE m_hConsole;
 
 		template<typename T>
-		void logPrefix(std::basic_string<T>& buffer, const LogLevel level)
+		void logPrefix(std::basic_string<T>& buffer, const LogLevel level) const
 		{
 			// TODO other stuff here in the future (timing/file and location)
 			fOutput::format(buffer, "[%s] ", getLevelName(level));
 		}
 
-		const std::string getLevelName(const LogLevel level)
+		const std::string getLevelName(const LogLevel level) const
 		{
 			switch (level)
 			{
@@ -85,7 +85,7 @@ namespace Simple_Logger
 			}
 		}
 
-		void setConsoleColor(const LogLevel level)
+		void setConsoleColor(const LogLevel level) const
 		{
 			switch (level)
 			{
@@ -103,13 +103,13 @@ namespace Simple_Logger
 			}
 		}
 
-		void clearConsoleColor()
+		void clearConsoleColor() const
 		{
 			SetConsoleTextAttribute(m_hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 		}
 
 		template<typename T, typename ... Args>
-		void log(const LogLevel level, const T* format, const Args& ... args)
+		void log(const LogLevel level, const T* format, const Args& ... args) const
 		{
 			if (m_level > level)
 				return;
