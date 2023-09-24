@@ -41,6 +41,12 @@ namespace Simple_Logger
 		}
 
 		template<typename ... Args>
+		void debug(const std::string& format, const Args& ... args) const
+		{
+			log(LogLevel::debug, format.c_str(), args ...);
+		}
+
+		template<typename ... Args>
 		void warning(const char* const format, const Args& ... args) const 
 		{
 			log(LogLevel::warning, format, args ...);
@@ -53,6 +59,12 @@ namespace Simple_Logger
 		}
 
 		template<typename ... Args>
+		void warning(const std::string& format, const Args& ... args) const
+		{
+			log(LogLevel::warning, format.c_str(), args ...);
+		}
+
+		template<typename ... Args>
 		void error(const char* const format, const Args& ... args) const 
 		{
 			log(LogLevel::error, format, args ...);
@@ -62,6 +74,12 @@ namespace Simple_Logger
 		void error(const wchar_t* const format, const Args& ... args) const 
 		{
 			log(LogLevel::error, format, args ...);
+		}
+
+		template<typename ... Args>
+		void error(const std::string& format, const Args& ... args) const
+		{
+			log(LogLevel::error, format.c_str(), args ...);
 		}
 	private:
 		LogLevel m_level;
