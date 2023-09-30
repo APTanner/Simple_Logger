@@ -29,67 +29,67 @@ namespace Simple_Logger
 		}
 
 		template<typename ... Args>
-		void debug(const char* const format, const Args& ... args) const
+		void debug(const char* file, int line, const char* const format, const Args& ... args) const
 		{
-			log(LogLevel::debug, format, args ...);
+			log(file, line, LogLevel::debug, format, args ...);
 		}
 
 		template<typename ... Args>
-		void debug(const wchar_t* const format, const Args& ... args) const 
+		void debug(const char* file, int line, const wchar_t* const format, const Args& ... args) const
 		{
-			log(LogLevel::debug, format, args ...);
+			log(file, line, LogLevel::debug, format, args ...);
 		}
 
 		template<typename ... Args>
-		void debug(const std::string& format, const Args& ... args) const
+		void debug(const char* file, int line, const std::string& format, const Args& ... args) const
 		{
-			log(LogLevel::debug, format.c_str(), args ...);
+			log(file, line, LogLevel::debug, format.c_str(), args ...);
 		}
 
 		template<typename ... Args>
-		void warning(const char* const format, const Args& ... args) const 
+		void warning(const char* file, int line, const char* const format, const Args& ... args) const
 		{
-			log(LogLevel::warning, format, args ...);
+			log(file, line, LogLevel::warning, format, args ...);
 		}
 
 		template<typename ... Args>
-		void warning(const wchar_t* const format, const Args& ... args) const
+		void warning(const char* file, int line, const wchar_t* const format, const Args& ... args) const
 		{
-			log(LogLevel::warning, format, args ...);
+			log(file, line, LogLevel::warning, format, args ...);
 		}
 
 		template<typename ... Args>
-		void warning(const std::string& format, const Args& ... args) const
+		void warning(const char* file, int line, const std::string& format, const Args& ... args) const
 		{
-			log(LogLevel::warning, format.c_str(), args ...);
+			log(file, line, LogLevel::warning, format.c_str(), args ...);
 		}
 
 		template<typename ... Args>
-		void error(const char* const format, const Args& ... args) const 
+		void error(const char* file, int line, const char* const format, const Args& ... args) const
 		{
-			log(LogLevel::error, format, args ...);
+			log(file, line, LogLevel::error, format, args ...);
 		}
 
 		template<typename ... Args>
-		void error(const wchar_t* const format, const Args& ... args) const 
+		void error(const char* file, int line, const wchar_t* const format, const Args& ... args) const
 		{
-			log(LogLevel::error, format, args ...);
+			log(file, line, LogLevel::error, format, args ...);
 		}
 
 		template<typename ... Args>
-		void error(const std::string& format, const Args& ... args) const
+		void error(const char* file, int line, const std::string& format, const Args& ... args) const
 		{
-			log(LogLevel::error, format.c_str(), args ...);
+			log(file, line, LogLevel::error, format.c_str(), args ...);
 		}
 	private:
 		LogLevel m_level;
 		HANDLE m_hConsole;
 
 		template<typename T>
-		void logPrefix(std::basic_string<T>& buffer, const LogLevel level) const
+		void logPrefix(std::basic_string<T>& buffer, const LogLevel level, const char* file, int line) const
 		{
 			// TODO other stuff here in the future (timing/file and location)
-			fOutput::format(buffer, "[%s] ", getLevelName(level));
+			fOutput::format(buffer, "[%s] [%s::%i] ", getLevelName(level), file, line);
 		}
 
 		const std::string getLevelName(const LogLevel level) const
@@ -127,13 +127,13 @@ namespace Simple_Logger
 		}
 
 		template<typename T, typename ... Args>
-		void log(const LogLevel level, const T* format, const Args& ... args) const
+		void log(const char* file, int line, const LogLevel level, const T* format, const Args& ... args) const
 		{
 			if (m_level > level)
 				return;
 			std::basic_string<T> buffer;
 			// append the stuff around the message
-			logPrefix(buffer, level);
+			logPrefix(buffer, level, file, line);
 			buffer += format;
 			buffer += '\n';
 			setConsoleColor(level);
